@@ -1,11 +1,19 @@
 import axios from "axios";
 
-const api = axios.create({
+/*const api = axios.create({
     baseURL: 'http://localhost:8090',
     headers: {
         'Content-Type': 'application/json',
       },
+});*/
+
+const api = axios.create({
+  baseURL: `http://${window.location.hostname}:8090`,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
 
 api.interceptors.request.use((config) => {
   const token = sessionStorage.getItem("accessToken");

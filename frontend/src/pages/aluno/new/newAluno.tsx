@@ -168,7 +168,7 @@ function NewAluno() {
 
                     <div className="flex text-center gap-5">
 
-                    <button type="submit" onClick={saveOrUpdate} className="w-20 h-32 flex items-center justify-center" >
+                    <button type="submit" onClick={saveOrUpdate} className="w-20 h-18 flex items-center justify-center" >
                         {alunoID === '0' ? "'Add'" : "'Update'"}
                         <BiSend title="Adicionar" color="green" className="w-20 h-20" />
                     </button>
