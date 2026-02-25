@@ -77,19 +77,21 @@ function NewAlunoTurma() {
         }
     };
 
-    const handleTurmaChange = async (e: { target: { value: any; }; }) => {
+    const handleTurmaChange = async (e: { target: { value: any } }) => {
         const idTurma = Number(e.target.value);
         setSelectedTurmaId(idTurma);
         setAlunos([]);
         try {
             const response = await fetchAlunosElegiveis(idTurma);
             const updatedAlunos = response.data.map((aluno: any) => ({
-                ...aluno,
-                matriculado: aluno.matriculado || (aluno.turmas && aluno.turmas.includes(idTurma)) // Handle both cases
+            ...aluno,
+            matriculado: aluno.matriculado || (aluno.turmas && aluno.turmas.includes(idTurma)),
+            // Normaliza novoConvertido para boolean
+            novoConvertido: aluno.novoConvertido === true || aluno.novoConvertido === "true" || aluno.novoConvertido === 1
             }));
             setAlunos(updatedAlunos);
         } catch (error) {
-            console.error('Error fetching alunos:', error);
+            console.error("Error fetching alunos:", error);
         }
     };
     
@@ -99,6 +101,7 @@ function NewAlunoTurma() {
         if (novoConvertidoFilter !== null && aluno.novoConvertido !== novoConvertidoFilter) return false;
         return true;
     });
+
 
     const handleCheckboxChange = (alunoId: number, isChecked : boolean) => {
         setAlunos((prevAlunos: Aluno[]) =>
@@ -227,29 +230,40 @@ function NewAlunoTurma() {
                         </div>
 
                         {/* Radio buttons para filtrar por novo convertido */}
-                        <div className="flex gap-5">
+                       <div className="flex gap-5">
                             <label className="text-2xl text-rose-800">Novo Convertido:</label>
+                            
                             <label>
                                 <input
-                                    type="radio"
-                                    value="true"
-                                    checked={novoConvertidoFilter === true}
-                                    onChange={() => setNovoConvertidoFilter(true)}
-                                    className="-ml-1"
+                                type="radio"
+                                checked={novoConvertidoFilter === true}
+                                onChange={() => setNovoConvertidoFilter(true)}
+                                className="-ml-1"
                                 />
                                 Sim
                             </label>
+                            
                             <label>
                                 <input
-                                    type="radio"
-                                    value="false"
-                                    checked={novoConvertidoFilter === false}
-                                    onChange={() => setNovoConvertidoFilter(false)}
-                                    className="ml-2"
+                                type="radio"
+                                checked={novoConvertidoFilter === false}
+                                onChange={() => setNovoConvertidoFilter(false)}
+                                className="ml-2"
                                 />
                                 Não
                             </label>
+                            
+                            <label>
+                                <input
+                                type="radio"
+                                checked={novoConvertidoFilter === null}
+                                onChange={() => setNovoConvertidoFilter(null)}
+                                className="ml-2"
+                                />
+                                Todos
+                            </label>
                         </div>
+
 
                     </div>
 

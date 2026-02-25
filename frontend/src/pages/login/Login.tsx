@@ -7,11 +7,16 @@ import "./styles.css";
 import api from "../../service/api";
 import Header from "../../components/header/header";
 import Footer from "../../components/footer/footer";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+
+
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -91,15 +96,22 @@ function Login() {
               <span className="focus-input" data-placeholder="Email"></span>
             </div>
 
-            <div className="wrap-input">
-              <input
-                className={password !== "" ? "has-val input" : "input"}
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span className="focus-input" data-placeholder="Password"></span>
-            </div>
+             <div className="wrap-input relative">
+                <input
+                  className={password !== "" ? "has-val input" : "input"}
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <span className="focus-input" data-placeholder="Password"></span>
+                <span
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+
 
             {error && <div className="error-message text-slate-200 ml-5 mb-5">{error}</div>}
 
